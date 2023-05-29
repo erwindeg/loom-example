@@ -1,0 +1,53 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+!**/src/test/**/test-reports/
+!**/src/test/resources/test-reports/
+editor-app/src/test/resources/apitests/test-reports
+editor-app/media
+editor-qti-export/media
+editor-qti-export/tmp/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+.DS_Store
+
+### temp data
+/data/
+/media/
+
+/tmp/
+editor-service/tmp
+/media/
+docker.log
+/editor-app/tmp/
+secrets.yml
+secrets.yml
+realm-editor.json
+**/realm-editor.json

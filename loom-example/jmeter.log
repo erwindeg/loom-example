@@ -1,0 +1,108 @@
+2023-02-13 10:51:03,743 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2023-02-13 10:51:03,923 INFO o.a.j.JMeter: Loading user properties from: /Applications/apache-jmeter-5.4.1/bin/user.properties
+2023-02-13 10:51:03,923 INFO o.a.j.JMeter: Loading system properties from: /Applications/apache-jmeter-5.4.1/bin/system.properties
+2023-02-13 10:51:03,933 INFO o.a.j.JMeter: Copyright (c) 1998-2021 The Apache Software Foundation
+2023-02-13 10:51:03,933 INFO o.a.j.JMeter: Version 5.4.1
+2023-02-13 10:51:03,933 INFO o.a.j.JMeter: java.version=17.0.3
+2023-02-13 10:51:03,933 INFO o.a.j.JMeter: java.vm.name=OpenJDK 64-Bit Server VM
+2023-02-13 10:51:03,933 INFO o.a.j.JMeter: os.name=Mac OS X
+2023-02-13 10:51:03,933 INFO o.a.j.JMeter: os.arch=x86_64
+2023-02-13 10:51:03,934 INFO o.a.j.JMeter: os.version=11.7
+2023-02-13 10:51:03,934 INFO o.a.j.JMeter: file.encoding=US-ASCII
+2023-02-13 10:51:03,934 INFO o.a.j.JMeter: java.awt.headless=null
+2023-02-13 10:51:03,934 INFO o.a.j.JMeter: Max memory     =1073741824
+2023-02-13 10:51:03,934 INFO o.a.j.JMeter: Available Processors =12
+2023-02-13 10:51:03,950 INFO o.a.j.JMeter: Default Locale=English (EN)
+2023-02-13 10:51:03,951 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2023-02-13 10:51:03,951 INFO o.a.j.JMeter: JMeterHome=/Applications/apache-jmeter-5.4.1
+2023-02-13 10:51:03,951 INFO o.a.j.JMeter: user.dir  =/Users/erwin/Workspaces/loom/loom-example
+2023-02-13 10:51:03,951 INFO o.a.j.JMeter: PWD       =/Users/erwin/Workspaces/loom/loom-example
+2023-02-13 10:51:03,952 INFO o.a.j.JMeter: IP: 127.0.0.1 Name: Erwins-MacBook-Pro.local FullName: localhost
+2023-02-13 10:51:05,515 INFO o.a.j.JMeter: Setting LAF to: com.github.weisj.darklaf.DarkLaf:com.github.weisj.darklaf.theme.DarculaTheme
+2023-02-13 10:51:08,053 INFO o.a.j.JMeter: Loaded icon properties from org/apache/jmeter/images/icon.properties
+2023-02-13 10:51:30,316 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2023-02-13 10:51:30,317 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2023-02-13 10:51:30,317 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2023-02-13 10:51:30,317 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2023-02-13 10:51:30,317 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+2023-02-13 10:51:30,317 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser
+2023-02-13 10:51:49,418 ERROR o.a.j.JMeter: Uncaught exception in thread Thread[AWT-EventQueue-0,6,main]
+java.lang.IllegalAccessError: class com.github.weisj.darklaf.ui.filechooser.DarkFilePaneUIBridge$DetailsTableModel (in unnamed module @0x57d5872c) cannot access class sun.awt.shell.ShellFolder (in module java.desktop) because module java.desktop does not export sun.awt.shell to unnamed module @0x57d5872c
+	at com.github.weisj.darklaf.ui.filechooser.DarkFilePaneUIBridge$DetailsTableModel.updateColumnInfo(DarkFilePaneUIBridge.java:1128) ~[darklaf-core-2.5.4.jar:2.5.4]
+	at com.github.weisj.darklaf.ui.filechooser.DarkFilePaneUIBridge$DetailsTableModel.<init>(DarkFilePaneUIBridge.java:1115) ~[darklaf-core-2.5.4.jar:2.5.4]
+	at com.github.weisj.darklaf.ui.filechooser.DarkFilePaneUIBridge.getDetailsTableModel(DarkFilePaneUIBridge.java:576) ~[darklaf-core-2.5.4.jar:2.5.4]
+	at com.github.weisj.darklaf.ui.filechooser.DarkFilePaneUIBridge$SortableListModel.<init>(DarkFilePaneUIBridge.java:1079) ~[darklaf-core-2.5.4.jar:2.5.4]
+	at com.github.weisj.darklaf.ui.filechooser.DarkFilePane.createList(DarkFilePane.java:137) ~[darklaf-core-2.5.4.jar:2.5.4]
+	at com.github.weisj.darklaf.ui.filechooser.DarkFileChooserUIBridge.createList(DarkFileChooserUIBridge.java:585) ~[darklaf-core-2.5.4.jar:2.5.4]
+	at com.github.weisj.darklaf.ui.filechooser.DarkFileChooserUIBridge$MetalFileChooserUIAccessor.createList(DarkFileChooserUIBridge.java:750) ~[darklaf-core-2.5.4.jar:2.5.4]
+	at com.github.weisj.darklaf.ui.filechooser.DarkFilePaneUIBridge.setViewType(DarkFilePaneUIBridge.java:376) ~[darklaf-core-2.5.4.jar:2.5.4]
+	at com.github.weisj.darklaf.ui.filechooser.DarkFilePaneUIBridge.propertyChange(DarkFilePaneUIBridge.java:890) ~[darklaf-core-2.5.4.jar:2.5.4]
+	at java.beans.PropertyChangeSupport.fire(PropertyChangeSupport.java:343) ~[?:?]
+	at java.beans.PropertyChangeSupport.firePropertyChange(PropertyChangeSupport.java:335) ~[?:?]
+	at java.beans.PropertyChangeSupport.firePropertyChange(PropertyChangeSupport.java:268) ~[?:?]
+	at java.awt.Component.firePropertyChange(Component.java:8722) ~[?:?]
+	at javax.swing.JComponent.setUI(JComponent.java:733) ~[?:?]
+	at javax.swing.JFileChooser.updateUI(JFileChooser.java:1839) ~[?:?]
+	at javax.swing.JFileChooser.setup(JFileChooser.java:396) ~[?:?]
+	at javax.swing.JFileChooser.<init>(JFileChooser.java:362) ~[?:?]
+	at javax.swing.JFileChooser.<init>(JFileChooser.java:309) ~[?:?]
+	at org.apache.jmeter.gui.util.FileDialoger.<clinit>(FileDialoger.java:42) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.Save.computeFileName(Save.java:201) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.Save.doAction(Save.java:163) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.ActionRouter.performAction(ActionRouter.java:87) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.ActionRouter.doActionNow(ActionRouter.java:124) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.AbstractAction.popupShouldSave(AbstractAction.java:76) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.Start.doAction(Start.java:111) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.ActionRouter.performAction(ActionRouter.java:87) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.ActionRouter.lambda$actionPerformed$0(ActionRouter.java:69) ~[ApacheJMeter_core.jar:5.4.1]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) ~[?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:771) ~[?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:722) ~[?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:716) ~[?:?]
+	at java.security.AccessController.doPrivileged(AccessController.java:399) ~[?:?]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86) ~[?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:741) ~[?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+2023-02-13 10:51:52,122 ERROR o.a.j.JMeter: Uncaught exception in thread Thread[AWT-EventQueue-0,6,main]
+java.lang.NoClassDefFoundError: Could not initialize class org.apache.jmeter.gui.util.FileDialoger
+	at org.apache.jmeter.gui.action.Save.computeFileName(Save.java:201) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.Save.doAction(Save.java:163) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.ActionRouter.performAction(ActionRouter.java:87) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.ActionRouter.lambda$actionPerformed$0(ActionRouter.java:69) ~[ApacheJMeter_core.jar:5.4.1]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) ~[?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:771) ~[?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:722) ~[?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:716) ~[?:?]
+	at java.security.AccessController.doPrivileged(AccessController.java:399) ~[?:?]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86) ~[?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:741) ~[?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+2023-02-13 10:51:55,777 ERROR o.a.j.JMeter: Uncaught exception in thread Thread[AWT-EventQueue-0,6,main]
+java.lang.NoClassDefFoundError: Could not initialize class org.apache.jmeter.gui.util.FileDialoger
+	at org.apache.jmeter.gui.action.Save.computeFileName(Save.java:201) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.Save.doAction(Save.java:163) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.ActionRouter.performAction(ActionRouter.java:87) ~[ApacheJMeter_core.jar:5.4.1]
+	at org.apache.jmeter.gui.action.ActionRouter.lambda$actionPerformed$0(ActionRouter.java:69) ~[ApacheJMeter_core.jar:5.4.1]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) ~[?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:771) ~[?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:722) ~[?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:716) ~[?:?]
+	at java.security.AccessController.doPrivileged(AccessController.java:399) ~[?:?]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86) ~[?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:741) ~[?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]

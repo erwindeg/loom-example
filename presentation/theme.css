@@ -1,0 +1,12 @@
+/* @theme your-theme */
+
+@import 'default';
+
+section, h1{
+    color: black;
+    font-family: Helvetica;
+}
+
+section {
+    background-color: white;
+}
