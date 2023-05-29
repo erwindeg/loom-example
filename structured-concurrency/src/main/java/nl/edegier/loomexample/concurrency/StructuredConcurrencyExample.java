@@ -26,6 +26,7 @@ public class StructuredConcurrencyExample {
     }
 
     private void completeOne() throws InterruptedException, ExecutionException {
+        long start = System.currentTimeMillis();
         try (var scope = new StructuredTaskScope.ShutdownOnSuccess<String>()) { //implements AutoCloseable
             scope.fork(this::callService1);
             scope.fork(this::callService2);
@@ -33,6 +34,7 @@ public class StructuredConcurrencyExample {
 
             String result = scope.result();
             System.out.println(result);
+            System.out.println(System.currentTimeMillis() - start);
         }
     }
 

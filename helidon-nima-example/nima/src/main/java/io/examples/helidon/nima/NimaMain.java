@@ -30,13 +30,7 @@ public class NimaMain {
     }
 
     static void routing(HttpRouting.Builder rules) {
-        rules
-//                .addFilter((chain, req, res) -> {
-//                    res.header(SERVER);
-//                    chain.proceed();
-//                })
-               // .get("/remote", NimaMain::remote)
-                .register("/", new BlockingService());
+        rules.register("/", new BlockingService());
     }
 
     private static void remote(ServerRequest req, ServerResponse res) {

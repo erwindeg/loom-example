@@ -23,10 +23,6 @@ class BlockingService implements HttpService {
     @Override
     public void routing(HttpRules httpRules) {
         httpRules.get("/hello",this::hello);
-//                .get("/one", this::one)
-//                .get("/sequence", this::sequence)
-//                .get("/parallel", this::parallel)
-//                .get("/sleep", this::sleep);
     }
 
     private void hello(ServerRequest req, ServerResponse res) {

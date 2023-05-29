@@ -114,16 +114,16 @@ Virtual Threads allows us to switch task on the platform level, using a synchron
 
 # Structured Concurrency Example
 
-Complete both tasks and shutdown scope
+Use Shutdown on failure to complete both tasks and shutdown scope
 
 ```java
 try(var scope = new StructuredTaskScope.ShutdownOnFailure()) { //implements AutoCloseable
-            Future<String> one = scope.fork(() -> callService1()); //completes in 1 seconds
-            Future<String> two = scope.fork(() -> callService2()); //completes in 2 seconds
+            Future<String> one = scope.fork(this::callService1); //completes in 1 seconds
+            Future<String> two = scope.fork(this::callService2); //completes in 2 seconds
             scope.join();
 
-            System.out.println(one.resultNow());
-            System.out.println(two.resultNow());
+            System.out.println(one.resultNow()); //get result from Future
+            System.out.println(two.resultNow()); //get result from Future
         }
 ```
 
@@ -134,7 +134,7 @@ hello world //completes in 2 seconds.
 
 # Structured Concurrency Example
 
-Complete one task, cancel the other
+Use ShutdownOnSuccess to complete one task, cancel the other
 
 ```java
   try (var scope = new StructuredTaskScope.ShutdownOnSuccess<String>()) { //implements AutoCloseable
@@ -142,13 +142,21 @@ Complete one task, cancel the other
             scope.fork(this::callService2);
             scope.join();
 
-            String result = scope.result();
+            String result = scope.result(); //get result from the scope
             System.out.println(result);
         }
 ```
 
 Output:
 hello //completes in 1 second.
+
+---
+
+# Demo structured concurrency
+
+```java
+StructuredConcurrencyExample
+```
 
 ---
 
@@ -291,7 +299,7 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
 
 ---
 
-# Rest Controller (threads <span style="color: darkorange;">&</span> virtual threads)
+# Spring Boot Rest Controller (threads <span style="color: darkorange;">&</span> virtual threads)
 
 ```java
     @GetMapping
@@ -303,7 +311,7 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
 
 ---
 
-# Rest Controller (Webflux)
+# Spring Webflux reactive Rest Controller
 
 ```java
     @GetMapping
@@ -312,9 +320,16 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
     }
 ```
 
-# Helidon Nima
+---
+
+# Helidon Nima Virtual threads router
 
 ```java
+  public void routing(HttpRules httpRules) {
+        httpRules.get("/hello", (req, res) -> client.get()
+                .path("/hello")
+                .request(String.class));
+    }
 
 ```
 
