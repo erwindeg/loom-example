@@ -48,48 +48,6 @@ class BlockingService implements HttpService {
                 .request(String.class);
     }
 
-    private void sleep(ServerRequest req, ServerResponse res) throws Exception {
-        Thread.sleep(1000);
-        res.send("finished");
-    }
-
-    private void one(ServerRequest req, ServerResponse res) {
-        String response = callRemote(client());
-
-        res.send(response);
-    }
-
-    private void sequence(ServerRequest req, ServerResponse res) {
-        int count = count(req);
-
-        var responses = new ArrayList<String>();
-
-        for (int i = 0; i < count; i++) {
-            responses.add(callRemote(client));
-        }
-
-        res.send("Combined results: " + responses);
-    }
-
-    private void parallel(ServerRequest req, ServerResponse res) throws Exception {
-
-        try (var exec = Executors.newVirtualThreadPerTaskExecutor()) {
-            int count = count(req);
-
-            var futures = new ArrayList<Future<String>>();
-            for (int i = 0; i < count; i++) {
-                futures.add(exec.submit(() -> callRemote(client)));
-            }
-
-            var responses = new ArrayList<String>();
-            for (var future : futures) {
-                responses.add(future.get());
-            }
-
-            res.send("Combined results: " + responses);
-        }
-    }
-
     private int count(ServerRequest req) {
         return req.query().first("count").map(Integer::parseInt).orElse(3);
     }

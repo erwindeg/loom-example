@@ -257,8 +257,19 @@ Example with 3 applications:
 
 # Scenario
 
-4000 users, 10 request per user
-Measuring throughput
+1000 users, 10 request per user
+Measuring throughput and average request duration
+
+---
+
+# A very slow webservice
+
+```java
+@GetMapping
+public Mono<String> hello() {
+    return Mono.delay(ofMillis(1000)).map(i -> "hello");
+}
+```
 
 ---
 
@@ -301,6 +312,12 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
     }
 ```
 
+# Helidon Nima
+
+```java
+
+```
+
 ---
 
 # Demo
@@ -309,12 +326,28 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
 
 # Results
 
-4000 threads
+1000 threads
 
-- Blocking Spring Boot: 600/second
-- Webflux Spring Boot: 3300/second
-- Loom Spring Boot: 4000/second
-- Loom Helidon Nima: 4400/second
+- Blocking Spring Boot: 200 rps, avg 4800 ms per request
+- Webflux Spring Boot: 960 rps, avg 1006 ms per request
+- Loom Spring Boot: 960 rps, avg 1003 ms per request
+- Loom Helidon Nima: 970 rps, avg 1003 ms per request
+
+---
+
+# Results: Blocking & Webflux
+
+| Blocking                   | Webflux                   |
+| -------------------------- | ------------------------- |
+| ![w:600](blocking-avg.png) | ![w:600](webflux-avg.png) |
+
+---
+
+# Results: Spring Loom & Helidon Nima Loom
+
+| Loom + Spring          | Loom + Nima            |
+| ---------------------- | ---------------------- |
+| ![w:600](loom-avg.png) | ![w:600](nima-avg.png) |
 
 ---
 

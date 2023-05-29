@@ -12,6 +12,6 @@ import static java.time.Duration.ofMillis;
 public class HelloController {
     @GetMapping
     public Mono<String> hello() {
-        return Mono.delay(ofMillis(300)).map(i -> "hello");
+        return Mono.delay(ofMillis(1000)).map(i -> "hello");
     }
 }
