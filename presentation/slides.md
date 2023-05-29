@@ -42,48 +42,35 @@ Though the concurrency model in Java is powerful and flexible as a feature, it w
 
 ---
 
-# Use cases
-
-<br>
-
-- Serving content over the wire (e.g. web server)
-  - Thread-per-request model
-  - Thread pools
-  - Asynchronous concurrency
-- Parallel processing
-  - Multi threading
-  - Thread synchronization
-  - Race conditions
-
-<!-- Just talk about thread-per-request first? Mention reactive here? -->
-
----
-
 # What<span style="color: darkorange;">?</span>
 
 <br>
+Project Loom:
 
 - Virtual Threads
 - Structured Concurrency
 
 ---
 
-# Virtual Threads
+# The problem
 
 - Latency due to network calls or IO
 - Switching tasks to optimize resources and throughput
 - Classic: multiple (OS) threads
 - But.. OS threads are heavy, amout is limited (memory)
-- Answer:
-  ## Virtual Threads
 
 ---
 
-![w:1024](virtualthreads.jpeg)
+# Possible solutions
+
+- Callbacks
+- Reactive
+
+Both require a specific programming model. What if we could use our existing imperative mono thread model?
 
 ---
 
-# Virtual Threads
+# Answer: Virtual Threads
 
 Virtual Threads allows us to switch task on the platform level, using a synchronous code style like we are used to.
 
@@ -92,79 +79,20 @@ Virtual Threads allows us to switch task on the platform level, using a synchron
 
 ---
 
-# Structured Concurrency
+# Virtual threads map to system threads
 
-- Where virtual threads solve the async problem by letting us code synchronously, it doesnt allow us to orchestrate concurrent operations.
-- Virtual threads are still a thread like concept
-- Concurrency Examples:
-  - run computations in parallel, collect results
-  - race computations, return first
-  - retry computations
-  - timeout computations
+![w:1024](virtualthreads.jpeg)
 
 ---
 
-# Structured Concurrency
+# Use cases for virtual threads
 
-- Define computations lazily (Callable<?>)
-- Orchestrator decides which computation runs when (StructuredTaskScope)
-- Bind life time of thread to the code block in which it is created
+<br>
 
----
-
-# Structured Concurrency Example
-
-Use Shutdown on failure to complete both tasks and shutdown scope
-
-```java
-try(var scope = new StructuredTaskScope.ShutdownOnFailure()) { //implements AutoCloseable
-            Future<String> one = scope.fork(this::callService1); //completes in 1 seconds
-            Future<String> two = scope.fork(this::callService2); //completes in 2 seconds
-            scope.join();
-
-            System.out.println(one.resultNow()); //get result from Future
-            System.out.println(two.resultNow()); //get result from Future
-        }
-```
-
-Output:
-hello world //completes in 2 seconds.
-
----
-
-# Structured Concurrency Example
-
-Use ShutdownOnSuccess to complete one task, cancel the other
-
-```java
-  try (var scope = new StructuredTaskScope.ShutdownOnSuccess<String>()) { //implements AutoCloseable
-            scope.fork(this::callService1);
-            scope.fork(this::callService2);
-            scope.join();
-
-            String result = scope.result(); //get result from the scope
-            System.out.println(result);
-        }
-```
-
-Output:
-hello //completes in 1 second.
-
----
-
-# Demo structured concurrency
-
-```java
-StructuredConcurrencyExample
-```
-
----
-
-# Loom: Virtual Threads & Structured Concurrency
-
-- You can leverage Virtual Threads without Stuctured Concurrency
-- Structured Concurrency is a threading model abstraction on top of virtual threads
-- Structured Concurreny aims to reduce errors with concurrent programming
+- Serving content over the wire (e.g. web server)
+  - Thread-per-request model
+  - Thread pools
+  - Asynchronous concurrency
 
 ---
 
@@ -337,7 +265,17 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
 
 # Demo
 
----
+- We expect the blocking application to have a higher than 1 s. response time.
+- We the Loom and Reactive applications to have around 1 s. response time.
+
+<!--Open JMeter performance.jmx-->
+<!--Run MockServerApplication-->
+
+<!--Run BlockingExampleApplication and display results-->
+<!--Run WebfluxExampleApplication and display results-->
+<!--Run LoomExampleApplication and display results-->
+
+## <!--Run NimaMain and display results-->
 
 # Results
 
@@ -389,6 +327,84 @@ Blocking the underlaying main thread:
 
 - Virtual threads will have their own threadlocal
 - But, if you have many Virtual threads, the memory footprint can become very high
+
+---
+
+# Structured Concurrency
+
+- Where virtual threads solve the async problem by letting us code synchronously, it doesnt allow us to orchestrate concurrent operations.
+- Virtual threads are still a thread like concept
+- Concurrency Examples:
+  - run computations in parallel, collect results
+  - race computations, return first
+  - retry computations
+  - timeout computations
+
+---
+
+# Structured Concurrency
+
+- Define computations lazily (Callable<?>)
+- Orchestrator decides which computation runs when (StructuredTaskScope)
+- Bind life time of thread to the code block in which it is created
+
+---
+
+# Structured Concurrency Example
+
+Use Shutdown on failure to complete both tasks and shutdown scope
+
+```java
+try(var scope = new StructuredTaskScope.ShutdownOnFailure()) { //implements AutoCloseable
+            Future<String> one = scope.fork(this::callService1); //completes in 1 seconds
+            Future<String> two = scope.fork(this::callService2); //completes in 2 seconds
+            scope.join();
+
+            System.out.println(one.resultNow()); //get result from Future
+            System.out.println(two.resultNow()); //get result from Future
+        }
+```
+
+Output:
+hello world //completes in 2 seconds.
+
+---
+
+# Structured Concurrency Example
+
+Use ShutdownOnSuccess to complete one task, cancel the other
+
+```java
+  try (var scope = new StructuredTaskScope.ShutdownOnSuccess<String>()) { //implements AutoCloseable
+            scope.fork(this::callService1);
+            scope.fork(this::callService2);
+            scope.join();
+
+            String result = scope.result(); //get result from the scope
+            System.out.println(result);
+        }
+```
+
+Output:
+hello //completes in 1 second.
+
+---
+
+# Demo structured concurrency
+
+```java
+StructuredConcurrencyExample
+```
+
+## <!--Run StructuredConcurrencyExample-->
+
+---
+
+# Loom: Virtual Threads & Structured Concurrency
+
+- You can leverage Virtual Threads without Stuctured Concurrency
+- Structured Concurrency is a threading model abstraction on top of virtual threads
+- Structured Concurreny aims to reduce errors with concurrent programming
 
 ---
 
