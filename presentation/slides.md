@@ -25,6 +25,27 @@ Trifork Amsterdam<br/>
 <h1>LOOM<span style="color: black;">I CARE?<span></h1>
 </span>
 
+<!--
+Goodmorning My name is Erwin de Gier and I'm a Software architect at Trifork Amsterdam.
+Today I want to talk about Project Loom and what it means for us as a developer.
+-->
+
+---
+
+# What<span style="color: darkorange;">?</span>
+
+<br>
+Project Loom:
+
+- JEP 425: Virtual Threads
+- JEP 428: Structured Concurrency
+
+<!--
+Project Loom is an OpenJDK project that aims to add high-throughput lightweight concurrency and new programming models on the Java platform. It consists of two main parts:\
+- Virtual Threads
+- Structural Concurrency
+-->
+
 ---
 
 # Why<span style="color: darkorange;">?</span>
@@ -42,22 +63,18 @@ Though the concurrency model in Java is powerful and flexible as a feature, it w
 
 ---
 
-# What<span style="color: darkorange;">?</span>
-
-<br>
-Project Loom:
-
-- Virtual Threads
-- Structured Concurrency
-
----
-
 # The problem
 
 - Latency due to network calls or IO
 - Switching tasks to optimize resources and throughput
 - Classic: multiple (OS) threads
-- But.. OS threads are heavy, amout is limited (memory)
+- But.. OS threads are heavy, amount is limited (memory)
+
+<!--
+When our applications do Network or IO calls we experience latency where the application
+has to wait for the call to response. During this time we can do other tasks to optimize
+resources and throughput.
+-->
 
 ---
 
@@ -68,6 +85,8 @@ Project Loom:
 
 Both require a specific programming model. What if we could use our existing imperative mono thread model?
 
+<!--Callback hell, requirement to determine blocking IO vs. non-blocking IO. changing existing applicaitons to reactive programming model-->
+
 ---
 
 # Answer: Virtual Threads
@@ -75,7 +94,15 @@ Both require a specific programming model. What if we could use our existing imp
 Virtual Threads allows us to switch task on the platform level, using a synchronous code style like we are used to.
 
 - low memory foot print
+- Stack is stored in the heap, dynamic sized
+- allows for creating for more threads than with platform threads due to lower memory requirements
 - suspend and resume are fast operations
+
+<!--
+Virtual threads are user mode threads.
+
+https://inside.java/2020/08/07/loom-performance/
+-->
 
 ---
 
@@ -98,7 +125,7 @@ Virtual Threads allows us to switch task on the platform level, using a synchron
 
 # Programming model<span style="color: darkorange;">.</span>
 
-- Asynchronous:
+- Asynchronous with callbacks:
 
 ```java
     public void callService(Consumer<String> callback);
@@ -175,6 +202,22 @@ Assumptions leading to the asynchronous Servlet API are subject to be invalidate
 
 ---
 
+# Creating Virtual Threads (low level)
+
+```java
+var virtualThread =  Thread.ofVirtual().name("virtual-thread-1");
+virtualThread.start(runnable);
+```
+
+Creating a platform thread:
+
+```java
+var platformThread =  Thread.ofPlatform().name("platform-thread-1");
+platformThread.start(runnable);
+```
+
+---
+
 # Threads vs<span style="color: darkorange;">.</span> Virtual Threads vs<span style="color: darkorange;">.</span> Webflux
 
 Example with 3 applications:
@@ -198,7 +241,7 @@ Measuring throughput and average request duration
 
 ---
 
-# A very slow webservice
+# A very slow downstream webservice
 
 ```java
 @GetMapping
@@ -206,6 +249,30 @@ public Mono<String> hello() {
     return Mono.delay(ofMillis(1000)).map(i -> "hello");
 }
 ```
+
+<!--
+Best case we expect a reply from our service of 1 s. with a little overhead
+-->
+
+---
+
+# Hypothesis
+
+- We expect the blocking application to have a higher than 1 s. response time.
+- We the Loom and Reactive applications to have around 1 s. response time.
+
+<!--Open JMeter performance.jmx-->
+<!--Run MockServerApplication-->
+
+<!--Run BlockingExampleApplication and display results-->
+<!--Run WebfluxExampleApplication and display results-->
+<!--Run LoomExampleApplication and display results-->
+
+## <!--Run NimaMain and display results-->
+
+---
+
+# Demo
 
 ---
 
@@ -225,6 +292,8 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
     }
 ```
 
+## <!-- part of demo-->
+
 ---
 
 # Spring Boot Rest Controller (threads <span style="color: darkorange;">&</span> virtual threads)
@@ -237,6 +306,8 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
     }
 ```
 
+<!-- part of demo-->
+
 ---
 
 # Spring Webflux reactive Rest Controller
@@ -247,6 +318,8 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
         return webClient.get().uri("hello").retrieve().bodyToMono(String.class);
     }
 ```
+
+<!-- part of demo-->
 
 ---
 
@@ -261,21 +334,9 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
 
 ```
 
+<!-- part of demo-->
+
 ---
-
-# Demo
-
-- We expect the blocking application to have a higher than 1 s. response time.
-- We the Loom and Reactive applications to have around 1 s. response time.
-
-<!--Open JMeter performance.jmx-->
-<!--Run MockServerApplication-->
-
-<!--Run BlockingExampleApplication and display results-->
-<!--Run WebfluxExampleApplication and display results-->
-<!--Run LoomExampleApplication and display results-->
-
-## <!--Run NimaMain and display results-->
 
 # Results
 
@@ -304,6 +365,37 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
 
 ---
 
+# Conclusion
+
+- Average response time of Reactive / Virtual Threads is comparable
+- Classic thread per request model application has higher response time
+
+---
+
+# Explanation
+
+- For usescases with external calls (IO/Networ) both Reactive and Virtual Thread applications benefit of a very high amount of "user-mode" threads (or workers). A far higher amount than would be possible with OS threads.
+- It's not the cheaper task switching per se that gives the higher througput.
+
+---
+
+# Compute demo
+
+```java
+    try (ExecutorService e = Executors.newThreadPerTaskExecutor(factory);) {
+        long sum = e.submit(() -> aList.parallelStream().reduce(0L, Long::sum)).get();
+    }
+```
+
+---
+
+# Explanation compute demo
+
+- task switching for virtual threads is cheaper
+- but this is not the main focus for virtual threads over platform threads
+
+---
+
 # Thread pinning
 
 Blocking the underlaying main thread:
@@ -328,7 +420,7 @@ Blocking the underlaying main thread:
 - Virtual threads will have their own threadlocal
 - But, if you have many Virtual threads, the memory footprint can become very high
 
----
+## <!-- ThreadLocalExample demo -->
 
 # Structured Concurrency
 
@@ -352,7 +444,9 @@ Blocking the underlaying main thread:
 
 # Structured Concurrency Example
 
-Use Shutdown on failure to complete both tasks and shutdown scope
+Complete both tasks and shutdown scope:
+
+- ShutdownOnFailure
 
 ```java
 try(var scope = new StructuredTaskScope.ShutdownOnFailure()) { //implements AutoCloseable
@@ -368,11 +462,15 @@ try(var scope = new StructuredTaskScope.ShutdownOnFailure()) { //implements Auto
 Output:
 hello world //completes in 2 seconds.
 
+## <!-- two tasks, 1 takes 2 seconds, 1 takes 1 second. We run them in parallel, so we expect it to take 2 seconds in total-->
+
 ---
 
 # Structured Concurrency Example
 
-Use ShutdownOnSuccess to complete one task, cancel the other
+To complete one task and cancel the other:
+
+- ShutdownOnSuccess
 
 ```java
   try (var scope = new StructuredTaskScope.ShutdownOnSuccess<String>()) { //implements AutoCloseable
@@ -387,6 +485,8 @@ Use ShutdownOnSuccess to complete one task, cancel the other
 
 Output:
 hello //completes in 1 second.
+
+<!-- The shorter tasks completes in 1 second, the other one is cancelled, so it takes 1 second in total-->
 
 ---
 
@@ -432,8 +532,10 @@ org.apache.catalina.core.LoomExecutor
 # What about Kotlin coroutines?
 
 - Kotlin coroutines:
-  - API for concurrenct programming
+  - API for concurrent programming
   - Flow & Channels
+  - Based on non-blocking IO (through libraries like Netty)
+  - Split application into non-blocking IO and blocking IO
 - Virtual Threads:
 
   - Implementation of parallel execution
@@ -441,7 +543,9 @@ org.apache.catalina.core.LoomExecutor
 
 - Kotlin coroutines could use VT via a dispatcher
 
+<!--
 (https://apiumhub.com/tech-blog-barcelona/project-loom-and-kotlin-some-experiments/)
+-->
 
 ---
 
@@ -461,6 +565,8 @@ Choose the right tool for the job
 - <b>Reactive</b>: Dealing with (infinite) data streams
 - <b>CompletableFutures, Kotlin Coroutines</b>: Concurrent programming
 - <b>Structured Concurrency</b>: Low level concurrency (step up from multi threading)
+
+<b>You will get virtual threads for free with an upgrade to Java 21!</b>
 
 <!--https://blog.rockthejvm.com/ultimate-guide-to-java-virtual-threads/#7-threadlocal-and-thread-pools-->
 

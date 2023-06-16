@@ -119,7 +119,7 @@
         </objProp>
         <stringProp name="filename"></stringProp>
         <stringProp name="RespTimeGraph.interval">100</stringProp>
-        <stringProp name="RespTimeGraph.graphtitle">Nima</stringProp>
+        <stringProp name="RespTimeGraph.graphtitle">result</stringProp>
         <intProp name="RespTimeGraph.linestrockwidth">7</intProp>
         <stringProp name="RespTimeGraph.yaxisscalemaxvalue">5500</stringProp>
       </ResultCollector>
