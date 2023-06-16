@@ -41,6 +41,7 @@ Project Loom:
 - JEP 428: Structured Concurrency
 
 <!--
+JDK Enhancement Proposals
 Project Loom is an OpenJDK project that aims to add high-throughput lightweight concurrency and new programming models on the Java platform. It consists of two main parts:\
 - Virtual Threads
 - Structural Concurrency
@@ -113,8 +114,6 @@ https://inside.java/2020/08/07/loom-performance/
 ---
 
 # Use cases for virtual threads
-
-<br>
 
 - Serving content over the wire (e.g. web server)
   - Thread-per-request model
@@ -411,6 +410,31 @@ Blocking the underlaying main thread:
   synchronized void blockingMethod() {
     sleep(Duration.ofSeconds(1L)); //Blocks the underlaying system thread
   }
+```
+
+---
+
+# ReentrantLock
+
+```java
+	private Resource resource;
+	private Lock lock;
+
+	public LockExample(Resource r){
+		this.resource = r;
+		this.lock = new ReentrantLock();
+	}
+
+	@Override
+	public void run() {
+		try {
+			if(lock.tryLock(10, TimeUnit.SECONDS)){
+			    resource.doSomething();
+			}
+		} finally{
+			lock.unlock();
+		}
+	}
 ```
 
 ---
