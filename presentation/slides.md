@@ -446,6 +446,8 @@ Blocking the underlaying main thread:
 
 ## <!-- ThreadLocalExample demo -->
 
+---
+
 # Structured Concurrency
 
 - Where virtual threads solve the async problem by letting us code synchronously, it doesnt allow us to orchestrate concurrent operations.
