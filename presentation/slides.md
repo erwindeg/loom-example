@@ -116,9 +116,18 @@ https://inside.java/2020/08/07/loom-performance/
 # Use cases for virtual threads
 
 - Serving content over the wire (e.g. web server)
-  - Thread-per-request model
-  - Thread pools
-  - Asynchronous concurrency
+  - Latency due to network calls
+  - Latency due to IO
+  - Not so much: high computation (CPU intensive)
+
+---
+
+# Existing solutions
+
+- Callbacks
+- Futures
+- Reactive
+- Coroutines
 
 ---
 
