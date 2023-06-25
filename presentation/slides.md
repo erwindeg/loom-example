@@ -27,7 +27,7 @@ Trifork Amsterdam<br/>
 
 <!--
 Goodmorning My name is Erwin de Gier and I'm a Software architect at Trifork Amsterdam.
-Today I want to talk about Project Loom and what it means for us as a developer.
+You probably already heard about project Loom, which will be part of Java's next release (22). Today i want to talk about what this means for us as developers.
 -->
 
 ---
@@ -75,6 +75,7 @@ Though the concurrency model in Java is powerful and flexible as a feature, it w
 When our applications do Network or IO calls we experience latency where the application
 has to wait for the call to response. During this time we can do other tasks to optimize
 resources and throughput.
+The classic way of solving this is using a thread per request model, where each task has its own thread. However these threads are bound to OS processes and are memory heavy, so the max amount is limited.
 -->
 
 ---
@@ -83,10 +84,12 @@ resources and throughput.
 
 - Callbacks
 - Reactive
+- Coroutines (async/await)
 
 Both require a specific programming model. What if we could use our existing imperative mono thread model?
 
-<!--Callback hell, requirement to determine blocking IO vs. non-blocking IO. changing existing applicaitons to reactive programming model-->
+<!-- Let's look at some other solutions that try to solve this problem without spinning up multiple threads.
+Callback hell, requirement to determine blocking IO vs. non-blocking IO. changing existing applicaitons to reactive programming model-->
 
 ---
 
@@ -100,8 +103,10 @@ Virtual Threads allows us to switch task on the platform level, using a synchron
 - suspend and resume are fast operations
 
 <!--
-Virtual threads are user mode threads.
-
+Virtual threads are user mode threads. Low (initial) memory requirments because their stack is
+stored in the Heap.
+Order of 1000 more threads available
+Low overhead
 https://inside.java/2020/08/07/loom-performance/
 -->
 
@@ -111,7 +116,7 @@ https://inside.java/2020/08/07/loom-performance/
 
 ![w:1024](virtualthreads.jpeg)
 
----
+## <!-- VT map to system threads and system threads are 1:1 to kernel threads managed by the OS-->
 
 # Use cases for virtual threads
 
@@ -119,6 +124,9 @@ https://inside.java/2020/08/07/loom-performance/
   - Latency due to network calls
   - Latency due to IO
   - Not so much: high computation (CPU intensive)
+
+<!-- a great advantage of Virtual Threads is their programming model.
+So look at some existing solutions-->
 
 ---
 
@@ -139,11 +147,12 @@ https://inside.java/2020/08/07/loom-performance/
     public void callService(Consumer<String> callback);
 
     callService(
-        result -> System.out.println(result);
+        result -> callService2(
+            result2 -> System.out.println(result2));
     );
 ```
 
----
+## <!-- Callback helL-->
 
 # Programming model<span style="color: darkorange;">.</span>
 
@@ -153,9 +162,14 @@ https://inside.java/2020/08/07/loom-performance/
     public CompletableFuture<String> callService();
 
     CompletableFuture cf = callService();
-    System.out.println(cf.get())
+    CompletableFuture cf2 = callService();
+    System.out.println(cf.thenCombine(c2, (c1,c2) -> c1+c2).join())
+
 
 ```
+
+<!-- a little bit better, but very specific API
+Does anyone use this?-->
 
 ---
 
@@ -166,10 +180,14 @@ https://inside.java/2020/08/07/loom-performance/
 ```java
     public Mono<String> callService();
 
-    callService().subscribe(
+    callService()
+    .map(result -> callService2())
+    .subscribe(
          result -> System.out.println(result)
     );
 ```
+
+## <!-- Much better functional approach, but needs a specific programming model-->
 
 ---
 
@@ -181,9 +199,11 @@ https://inside.java/2020/08/07/loom-performance/
     suspend fun callService() : String
 
     async {
-        println(callService)
+        println(callService + callService2)
     }
 ```
+
+<!--Very readable, but not natively supported by the JDK-->
 
 ---
 
@@ -194,7 +214,7 @@ https://inside.java/2020/08/07/loom-performance/
 ```java
     public String callService();
 
-    System.out.println(callService());
+    System.out.println(callService()+callService());
 
     //Yes, it's the same as our current blocking code
 ```
@@ -224,11 +244,16 @@ var platformThread =  Thread.ofPlatform().name("platform-thread-1");
 platformThread.start(runnable);
 ```
 
+<!--Now that you want those Virtual threads, how do you get them
+You could make them yourself.
+But it would be nicer if you don't have to manage them, right?
+Lets have a look at some examples.-->
+
 ---
 
 # Threads vs<span style="color: darkorange;">.</span> Virtual Threads vs<span style="color: darkorange;">.</span> Webflux
 
-Example with 3 applications:
+Example with 3 variants of an application:
 
 - Standard Java Threads
 - Standard Java with Virtual Threads
@@ -259,7 +284,8 @@ public Mono<String> hello() {
 ```
 
 <!--
-Best case we expect a reply from our service of 1 s. with a little overhead
+All our 3 variants of the application will be calling this slow returing webservice
+Best case we expect a reply from our service of 1 s. with a little overhead.
 -->
 
 ---
@@ -377,12 +403,13 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
 
 - Average response time of Reactive / Virtual Threads is comparable
 - Classic thread per request model application has higher response time
+- Thread per request model has a lower throughput
 
 ---
 
 # Explanation
 
-- For usescases with external calls (IO/Networ) both Reactive and Virtual Thread applications benefit of a very high amount of "user-mode" threads (or workers). A far higher amount than would be possible with OS threads.
+- For usescases with external calls (IO/Network) both Reactive and Virtual Thread applications benefit of a very high amount of "user-mode" threads (or workers). A far higher amount than would be possible with OS threads.
 - It's not the cheaper task switching per se that gives the higher througput.
 
 ---
@@ -394,6 +421,8 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
         long sum = e.submit(() -> aList.parallelStream().reduce(0L, Long::sum)).get();
     }
 ```
+
+## <!--ComputeDemo-->
 
 ---
 
@@ -466,6 +495,8 @@ Blocking the underlaying main thread:
   - race computations, return first
   - retry computations
   - timeout computations
+
+ <!-- the other part of Project Loom-->
 
 ---
 

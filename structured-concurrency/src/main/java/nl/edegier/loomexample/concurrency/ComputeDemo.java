@@ -7,11 +7,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.stream.LongStream;
 
-public class PlatformThreadsCompute {
+public class ComputeDemo {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         long firstNum = 1;
         long lastNum = 1000000;
-        var compute = new PlatformThreadsCompute();
+        var compute = new ComputeDemo();
         compute.sumPlatformThreads(firstNum,lastNum);
         compute.sumVirtualThreads(firstNum,lastNum);
     }
