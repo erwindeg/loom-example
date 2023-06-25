@@ -11,7 +11,6 @@ _backgroundColor: darkorange
     }
 </style>
 
-<!-- ![bg](background.jpg) -->
 <span style="color: black;">
 Erwin de Gier<br/>
 Software Architect<br/>
@@ -642,3 +641,11 @@ Choose the right tool for the job
 
 - java microbenchmark harness ?
 -->
+
+---
+
+# Slides & Examples
+
+![w:300 center](qr.png)
+
+https://github.com/erwindeg/loom-example
