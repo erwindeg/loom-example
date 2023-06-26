@@ -252,11 +252,14 @@ Lets have a look at some examples.-->
 
 # Threads vs<span style="color: darkorange;">.</span> Virtual Threads vs<span style="color: darkorange;">.</span> Webflux
 
-Example with 3 variants of an application:
+Example with 4 variants of an application:
 
-- Standard Java Threads
-- Standard Java with Virtual Threads
-- Reactive non-blocking
+- Spring Boot with Platform threads
+- Spring Boot with Virtual Threads
+- Spring Boot Webflux (Reactive non-blocking)
+- Microprofile with Virtual Threads (Helidon Nima)
+
+<!--Nima is intended as a Netty replacement--->
 
 ---
 
@@ -300,8 +303,7 @@ Best case we expect a reply from our service of 1 s. with a little overhead.
 <!--Run BlockingExampleApplication and display results-->
 <!--Run WebfluxExampleApplication and display results-->
 <!--Run LoomExampleApplication and display results-->
-
-## <!--Run NimaMain and display results-->
+<!--Run NimaMain and display results-->
 
 ---
 
@@ -637,11 +639,6 @@ Choose the right tool for the job
 
 <!--https://blog.softwaremill.com/will-project-loom-obliterate-java-futures-fb1a28508232-->
 
-<!--TODO:
-
-- java microbenchmark harness ?
--->
-
 ---
 
 # Slides & Examples
@@ -649,3 +646,7 @@ Choose the right tool for the job
 ![w:300 center](qr.png)
 
 https://github.com/erwindeg/loom-example
+
+---
+
+![bg](image3.png)
