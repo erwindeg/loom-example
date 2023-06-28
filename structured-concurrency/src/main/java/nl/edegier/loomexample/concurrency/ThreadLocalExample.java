@@ -1,6 +1,9 @@
 package nl.edegier.loomexample.concurrency;
 
+import jdk.incubator.concurrent.ScopedValue;
+
 public class ThreadLocalExample {
+
     public static void main(String[] args) throws InterruptedException {
         ThreadLocal<String> context = new ThreadLocal<>();
         var pt1= Thread.ofVirtual().name("pt-1").start(getRunnable(context,"pt-1"));
@@ -12,6 +15,8 @@ public class ThreadLocalExample {
         var vt2 = Thread.ofVirtual().name("vt-2").start(getRunnable(context,"vt-2"));
         vt1.join();
         vt2.join();
+
+
     }
 
     private static Runnable getRunnable(ThreadLocal<String> context, String value) {

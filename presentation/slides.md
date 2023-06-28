@@ -494,8 +494,27 @@ Blocking the underlaying main thread:
 
 - Virtual threads will have their own threadlocal
 - But, if you have many Virtual threads, the memory footprint can become very high
+- Threadlocal is mutable!
+- Child threads copy all threadlocal variable from parent, so need to reserve memory
 
 ## <!-- ThreadLocalExample demo -->
+
+---
+
+# ScopedValue
+
+```java
+//Immutable
+public final static ScopedValue<String> VALUE = ScopedValue.newInstance();
+
+//Only available in lambda
+ScopedValue.where(VALUE, "testvalue").run(
+  () -> System.out.println(VALUE.get())
+);
+
+//Also available in child threads, but not copied
+
+```
 
 ---
 

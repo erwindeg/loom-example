@@ -15,17 +15,22 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
+import static java.util.concurrent.Executors.newThreadPerTaskExecutor;
 
 @Configuration
 public class Config {
     @Bean(TaskExecutionAutoConfiguration.APPLICATION_TASK_EXECUTOR_BEAN_NAME)
     public AsyncTaskExecutor asyncTaskExecutor() {
-        return new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());
+        ThreadFactory factory = Thread.ofVirtual().name("virtual", 0L).factory();
+        return new TaskExecutorAdapter(newThreadPerTaskExecutor(factory));
     }
 
     @Bean
     TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() {
-        return protocolHandler -> protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
+        ThreadFactory factory = Thread.ofVirtual().name("virtual", 0L).factory();
+        return protocolHandler -> protocolHandler.setExecutor(newThreadPerTaskExecutor(factory));
     }
 
 
