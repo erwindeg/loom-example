@@ -118,7 +118,7 @@
           </value>
         </objProp>
         <stringProp name="filename"></stringProp>
-        <stringProp name="RespTimeGraph.interval">200</stringProp>
+        <stringProp name="RespTimeGraph.interval">150</stringProp>
         <stringProp name="RespTimeGraph.graphtitle">result</stringProp>
         <intProp name="RespTimeGraph.linestrockwidth">7</intProp>
         <stringProp name="RespTimeGraph.yaxisscalemaxvalue">5500</stringProp>

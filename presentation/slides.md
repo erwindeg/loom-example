@@ -26,7 +26,7 @@ Trifork Amsterdam<br/>
 
 <!--
 Good afternoon and thank you for coming to my talk
-You probably already heard about project Loom, which will be part of Java's next release (22). Today i want to talk about what this means for us as developers.
+You probably already heard about project Loom, which will be part of Java's next release (21). Today i want to talk about what this means for us as developers.
 -->
 
 ---
@@ -41,9 +41,11 @@ Project Loom:
 
 <!--
 JDK Enhancement Proposals
-Project Loom is an OpenJDK project that aims to add high-throughput lightweight concurrency and new programming models on the Java platform. It consists of two main parts:\
+Project Loom is an OpenJDK project that aims to add high-throughput lightweight concurrency and new programming models on the Java platform. It consists of two main parts:
 - Virtual Threads
 - Structural Concurrency
+
+Will look at both what this means for us
 -->
 
 ---
@@ -59,6 +61,8 @@ _"Project Loom aims to drastically reduce the effort of writing, maintaining, an
 <!--
 Start with why
 Though the concurrency model in Java is powerful and flexible as a feature, it was not the easiest to use, and the developer experience hasn’t been great.
+
+Goal is to make it easier to build high-throughput applications
 -->
 
 ---
@@ -85,10 +89,10 @@ The classic way of solving this is using a thread per request model, where each 
 - Reactive
 - Coroutines (async/await)
 
-Both require a specific programming model. What if we could use our existing imperative mono thread model?
+Both require a specific programming model. What if we could use our existing imperative single thread model?
 
 <!-- Let's look at some other solutions that try to solve this problem without spinning up multiple threads.
-Callback hell, requirement to determine blocking IO vs. non-blocking IO. changing existing applicaitons to reactive programming model-->
+Callback hell, requirement to determine blocking IO vs. non-blocking IO. changing existing applications to reactive programming model-->
 
 ---
 
@@ -102,7 +106,7 @@ Virtual Threads allows us to switch task on the platform level, using a synchron
 - suspend and resume are fast operations
 
 <!--
-Virtual threads are user mode threads. Low (initial) memory requirments because their stack is
+Virtual threads are user mode threads. Low (initial) memory requirements because their stack is
 stored in the Heap.
 Order of 1000 more threads available
 Low overhead
@@ -116,6 +120,8 @@ https://inside.java/2020/08/07/loom-performance/
 ![w:1024](virtualthreads.jpeg)
 
 ## <!-- VT map to system threads and system threads are 1:1 to kernel threads managed by the OS-->
+
+---
 
 # Use cases for virtual threads
 
@@ -153,6 +159,8 @@ So look at some existing solutions-->
 
 ## <!-- Callback helL-->
 
+---
+
 # Programming model<span style="color: darkorange;">.</span>
 
 - Asynchronous with CompletableFutures
@@ -186,7 +194,7 @@ Does anyone use this?-->
     );
 ```
 
-## <!-- Much better functional approach, but needs a specific programming model-->
+## <!-- Much better functional approach, but needs a specific programming model, debugging might be hard, needs reactive versions of libraries, testing could be a challenge -->
 
 ---
 
@@ -215,7 +223,7 @@ Does anyone use this?-->
 
     System.out.println(callService()+callService());
 
-    //Yes, it's the same as our current blocking code
+    //Yes, it's the same as our current single thread code
 ```
 
 <!--
@@ -230,6 +238,8 @@ Assumptions leading to the asynchronous Servlet API are subject to be invalidate
 ---
 
 # Creating Virtual Threads (low level)
+
+JDK 19/20 preview
 
 ```java
 var virtualThread =  Thread.ofVirtual().name("virtual-thread-1");
@@ -297,6 +307,10 @@ Best case we expect a reply from our service of 1 s. with a little overhead.
 - We expect the blocking application to have a higher than 1 s. response time.
 - We the Loom and Reactive applications to have around 1 s. response time.
 
+---
+
+# Demo
+
 <!--Open JMeter performance.jmx-->
 <!--Run MockServerApplication-->
 
@@ -304,10 +318,6 @@ Best case we expect a reply from our service of 1 s. with a little overhead.
 <!--Run WebfluxExampleApplication and display results-->
 <!--Run LoomExampleApplication and display results-->
 <!--Run NimaMain and display results-->
-
----
-
-# Demo
 
 ---
 
@@ -403,7 +413,7 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
 # Conclusion
 
 - Average response time of Reactive / Virtual Threads is comparable
-- Classic thread per request model application has higher response time
+- Classic thread per request model application has higher average response time
 - Thread per request model has a lower throughput
 
 ---
@@ -412,6 +422,8 @@ Configure a Tomcat Spring Boot application to use virtual threads instead of thr
 
 - For usescases with external calls (IO/Network) both Reactive and Virtual Thread applications benefit of a very high amount of "user-mode" threads (or workers). A far higher amount than would be possible with OS threads.
 - It's not the cheaper task switching per se that gives the higher througput.
+
+<!-- idea behind reactive / virtual threads / coroutines is similar, difference is with virtual threads the complexity to make it happen is hidden from the developer-->
 
 ---
 
@@ -585,6 +597,14 @@ StructuredConcurrencyExample
 ```java
 org.apache.catalina.core.LoomExecutor
 ```
+
+---
+
+# In preparation
+
+- Upgrade to Java 20
+- Upgrade to Spring Boot 3.x (Spring 6.x)
+- Replace synchronized with ReentrantLock
 
 ---
 
