@@ -25,7 +25,7 @@ Trifork Amsterdam<br/>
 </span>
 
 <!--
-Goodmorning My name is Erwin de Gier and I'm a Software architect at Trifork Amsterdam.
+Good afternoon and thank you for coming to my talk
 You probably already heard about project Loom, which will be part of Java's next release (22). Today i want to talk about what this means for us as developers.
 -->
 
@@ -643,10 +643,20 @@ Choose the right tool for the job
 
 # Slides & Examples
 
-![w:300 center](qr.png)
+![w:350 center](qr.png)
 
 https://github.com/erwindeg/loom-example
 
 ---
 
 ![bg](image3.png)
+
+---
+
+# Links
+
+I/O implementation details:
+https://inside.java/2021/05/10/networking-io-with-virtual-threads/
+
+Performance & coroutines:
+https://inside.java/2020/08/07/loom-performance/

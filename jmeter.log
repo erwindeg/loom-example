@@ -15974,3 +15974,21 @@
 2023-06-25 14:23:32,240 INFO o.a.j.t.JMeterThread: Thread finished: Thread Group 1-901
 2023-06-25 14:23:32,240 INFO o.a.j.e.StandardJMeterEngine: Notifying test listeners of end of test
 2023-06-25 14:23:32,240 INFO o.a.j.g.u.JMeterMenuBar: setRunning(false, *local*)
+2023-06-28 09:04:11,033 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.1
+2023-06-28 09:04:14,051 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.21
+2023-06-28 09:04:19,970 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.3310001
+2023-06-28 09:04:21,609 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.4641001
+2023-06-28 09:04:24,199 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.6105101
+2023-06-28 09:05:04,685 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.7715611
+2023-06-28 09:05:26,301 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.6105101
+2023-06-28 09:05:27,842 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.4641001
+2023-06-28 09:05:29,235 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.3310001
+2023-06-28 09:05:30,451 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.21
+2023-06-28 09:05:32,724 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.1
+2023-06-28 09:06:45,804 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.1
+2023-06-28 09:06:47,082 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.21
+2023-06-28 09:06:48,609 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.3310001
+2023-06-28 09:06:49,992 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.4641001
+2023-06-28 09:06:51,771 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.6105101
+2023-06-28 09:06:53,154 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.7715611
+2023-06-28 09:07:00,550 INFO o.a.j.g.JMeterUIDefaults: Applying font scale factor: 1.9487174
