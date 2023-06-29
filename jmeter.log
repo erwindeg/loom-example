@@ -19668,3 +19668,8 @@
 2023-06-28 15:05:07,279 INFO o.a.j.t.JMeterThread: Thread finished: Thread Group 1-336
 2023-06-28 15:05:07,279 INFO o.a.j.e.StandardJMeterEngine: Notifying test listeners of end of test
 2023-06-28 15:05:07,279 INFO o.a.j.g.u.JMeterMenuBar: setRunning(false, *local*)
+2023-06-29 08:46:28,061 INFO o.a.j.g.a.Load: Loading file: /Users/erwin/Workspaces/loom/loom-example/src/test/resources/jmeter/performance.jmx
+2023-06-29 08:46:28,062 INFO o.a.j.s.FileServer: Set new base='/Users/erwin/Workspaces/loom/loom-example/src/test/resources/jmeter'
+2023-06-29 08:46:28,062 INFO o.a.j.s.SaveService: Loading file: /Users/erwin/Workspaces/loom/loom-example/src/test/resources/jmeter/performance.jmx
+2023-06-29 08:46:28,072 INFO o.a.j.v.ViewResultsFullVisualizer: Add JavaFX to your Java installation if you want to use renderer: org.apache.jmeter.visualizers.RenderInBrowser
+2023-06-29 08:46:28,092 INFO o.a.j.s.FileServer: Set new base='/Users/erwin/Workspaces/loom/loom-example/src/test/resources/jmeter'

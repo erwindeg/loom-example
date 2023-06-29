@@ -135,6 +135,14 @@ So look at some existing solutions-->
 
 ---
 
+![bg](IMG_1312.jpeg)
+
+---
+
+![bg](IMG_0408.jpeg)
+
+---
+
 # Existing solutions
 
 - Callbacks
